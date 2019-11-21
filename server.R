@@ -1,28 +1,4 @@
 library(shiny)
-28.50
-21.75
-24.00
-29.75
-24.25
-38.50
-37.50
-28.00
-31.75
-38.00
-35.75
-35.50
-40.50
-41.25
-44.50
-39.50
-40.75
-40.50
-40.00
-45.25
-44.75
-42.00
-44.75
-0.00
 library(tidyverse)
 
 default = tribble(
@@ -38,27 +14,27 @@ default = tribble(
 
 test = function () {
 
-process_marks('', 100)
-process_marks('\n', 100)
-process_marks('1\n', 100)
+  process_marks('', 100)
+  process_marks('\n', 100)
+  process_marks('1\n', 100)
 
-process_marks('1\\', 100)
+  process_marks('1\\', 100)
 
-process_marks('a b 100 70 60 50 1 NS W E', 100)
+  process_marks('a b 100 70 60 50 1 NS W E', 100)
 
-process_marks('100 70 60 50 1', 100)
+  process_marks('100 70 60 50 1', 100)
 
-raw2df('100 70 60 50 1 NS W E')
-grades_have_error('100 70 60 50 1 NS W E')
+  raw2df('100 70 60 50 1 NS W E')
+  grades_have_error('100 70 60 50 1 NS W E')
 
-grades_have_error('100 70 60 50 1 NS W E')
-grades_have_error('')
-grades_have_error('1\n1')
-grades_have_error('1\\n1')
-grades_have_error('100 70 60 50 1 NS W E')
-grades_have_error('NS W E')
+  grades_have_error('100 70 60 50 1 NS W E')
+  grades_have_error('')
+  grades_have_error('1\n1')
+  grades_have_error('1\\n1')
+  grades_have_error('100 70 60 50 1 NS W E')
+  grades_have_error('NS W E')
 
-raw2df('100 70 60 50 1 NS W E') %>% filter( special=='V') %>% nrow()
+  raw2df('100 70 60 50 1 NS W E') %>% filter( special=='V') %>% nrow()
 }
 
 #undebug(process_marks)
@@ -183,7 +159,7 @@ grades_no_errors = function( raw_values ) {
 #
 ################################################################################
 function(input, output) {
-  shiny::reactive({
+  output$gradeSummary <- renderTable({ 
     shiny::validate( 
                     shiny::need(grades_has_something( input$raw_values), 
                                 "Please paste or enter in grades for summarisation")
@@ -196,9 +172,7 @@ function(input, output) {
                     shiny::need(grades_no_errors( input$raw_values), 
                                 "Please only enter numbers, NS or W values")
     )
-  })
 
-    output$rv <- renderTable({ 
       if(!grades_has_something( input$raw_values))  return(NULL)
       if(!grades_has_numbers( input$raw_values))  return(NULL)
       if(!grades_no_errors( input$raw_values))  return(NULL)

@@ -1,16 +1,20 @@
 library(shiny)
 
   fluidPage(
-    titlePanel("Summarisation tool for Grades"),
-    h4('Set the maximum mark, paste in your raw marks, and copy the result'),
+    titlePanel("Mark Summarisation Tool"),
     sidebarLayout(
       sidebarPanel(
-        textInput("out_of", "Maximum Mark", value="100", width='100px'),
-        textAreaInput("raw_values", "Values to Summarise", width = "100px", height='500px')
+        tags$ul(
+          tags$li('Specify max mark'),
+          tags$li('Paste raw marks'),
+          tags$li( 'Copy results')),
+        textInput("out_of", "Max Mark", value="100", width='100px'),
+        textAreaInput("raw_values", "Raw Marks", width = "100px", height='500px'),
+        width=2
       ),
       mainPanel(
-        h4('Results'),
-        tableOutput("rv")
+        h4('Grade Summary Results'),
+        tableOutput("gradeSummary")
       )
     )
 )
