@@ -1,7 +1,6 @@
 library(tidyverse)
 
 out_of=50
-
 "
 1a
 28.50
@@ -27,7 +26,10 @@ out_of=50
 44.75
 42.00
 44.75
-0.00 NS W" %>%
+0.00 NS W" %>% 
+{ . } -> raw_values
+
+
 strsplit("[[:space:]]") %>%
 pluck(1) %>%
 enframe( name=NULL, value='raw_input') %>%
